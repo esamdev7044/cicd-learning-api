@@ -22,7 +22,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run tests
-        run: npm test
+        run: |
+          mkdir -p test-results
+          npm test
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-test-report
+          path: test-results/junit.xml
+          if-no-files-found: warn
+          retention-days: 7
   static-check:
     name: Check JavaScript Syntax
     runs-on: ubuntu-latest
