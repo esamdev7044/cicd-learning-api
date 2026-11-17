@@ -1,37 +1,47 @@
-
 name: CI Pipeline
-
 on:
   push:
-    branches:
-      - main
-
+    branches: [main]
   pull_request:
-    branches:
-      - main
-
+    branches: [main]
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
   test:
     name: Run Automated Tests
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
-
       - name: Install dependencies
         run: npm ci
-
       - name: Run tests
         run: npm test
+  static-check:
+    name: Check JavaScript Syntax
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Check application syntax
+        run: |
+          node --check src/app.js
+          node --check src/server.js
+          node --check tests/app.test.js
+  quality-gate:
+    name: Verify All Checks
+    needs: [test, static-check]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm successful checks
+        run: echo "All required CI checks passed!"
