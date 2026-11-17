@@ -1,0 +1,17 @@
+{
+  "name": "cicd-learning-api",
+  "version": "1.0.0",
+  "description": "A practical project for learning CI/CD with GitHub Actions",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
