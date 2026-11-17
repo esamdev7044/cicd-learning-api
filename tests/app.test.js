@@ -34,6 +34,6 @@ test("GET /health should return a successful response", async () => {
 
   assert.deepEqual(data, {
     status: "ok",
-    message: "CI/CD learning API is running",
+    message: "Something is wrong",
   });
 });
